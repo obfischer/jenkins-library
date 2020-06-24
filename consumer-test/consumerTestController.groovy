@@ -194,23 +194,7 @@ def notifyGithub(state, description) {
 }
 
 def changeDoesNotNeedConsumerTesting() {
-    if (BRANCH_NAME == 'master') {
-        return false
-    }
-
-    def excludesRegex = '(' + EXCLUDED_FROM_CONSUMER_TESTING_REGEXES.join('|') + ')'
-
-    "git remote add sap https://github.com/SAP/jenkins-library.git".execute().waitFor()
-    "git fetch sap".execute().waitFor()
-    def diff = "git diff --name-only sap/master ${LIBRARY_VERSION_UNDER_TEST}".execute().text.trim()
-
-    for (def line : diff.readLines()) {
-        if (!(line ==~ excludesRegex)) {
-            return false
-        }
-    }
-
-    return true
+    return false
 }
 
 static def newEmptyDir(String dirName) {
